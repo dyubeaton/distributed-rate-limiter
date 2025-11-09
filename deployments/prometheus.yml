@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 15s       # How often to scrape targets
+  evaluation_interval: 15s   # How often to evaluate rules
+
+# Scrape configurations
+scrape_configs:
+  # Your rate limiter service (running on host machine, not in Docker)
+  - job_name: 'ratelimiter'
+    static_configs:
+      - targets: ['host.docker.internal:8080']  # Special DNS name to reach host from container
+    metrics_path: '/metrics'
+    scrape_interval: 5s  # Scrape more frequently for development
+
+  # Prometheus itself (optional, useful for monitoring Prometheus)
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
